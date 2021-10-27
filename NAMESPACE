@@ -2,5 +2,6 @@
 
 export(dtweibull)
 export(ptweibull)
+export(qtweibull)
 import(checkmate)
 importFrom(VGAM,log1mexp)
