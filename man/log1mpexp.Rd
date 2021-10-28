@@ -4,7 +4,7 @@
 \alias{log1mpexp}
 \title{Numerically compute the value of log(1 - p + p * exp(-x))}
 \usage{
-log1mpexp(log_p, a, b, shape, scale, ..., debug = FALSE)
+log1mpexp(log_p, a, b, shape, scale, ...)
 }
 \arguments{
 \item{a}{(Numeric) Lower truncation point}

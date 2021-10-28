@@ -41,10 +41,10 @@ list_select = function(..., x, ind){
 #' error checking is performed on its inputs.
 #'
 #' @param p (Numeric) Numeric 0 <= p <= 1
-#' @param a (Numeric) Lower truncation point
-#' @param b (Numeric) Upper truncation point
 #' @param shape (Numeric) Weibull shape parameter
 #' @param scale (Numeric) Weibull scale parameter
+#' @param a (Numeric) Lower truncation point
+#' @param b (Numeric) Upper truncation point
 #' @param ... Arguments that get passed along to `uniroot`
 #'
 #' @return A numeric value
@@ -52,7 +52,7 @@ list_select = function(..., x, ind){
 #' @import checkmate
 #'
 #' @keywords interval
-log1mpexp = function(log_p, a, b, shape, scale, ..., debug = FALSE){
+log1mpexp = function(log_p, a, b, shape, scale, ...){
   x = (a^shape - b^shape) / scale^shape
 
   if(is.infinite(log_p) && log_p < 0)
@@ -87,5 +87,5 @@ log1mpexp = function(log_p, a, b, shape, scale, ..., debug = FALSE){
       )
     )
 
-  if(isTRUE(debug)) root else root$root
+  root$root
 }

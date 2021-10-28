@@ -20,9 +20,31 @@
 #'
 #' @examples
 #' qtweibull(0.5, 1, 5, 1.5, 2.5)
-qtweibull = function(p, a=0, b=Inf, shape, scale, log.p=FALSE, ...){
-  log_p = if(isFALSE(log.p)) log(p) else p
-  res = a^shape - scale^shape * log1mpexp(log_p, a, b, shape, scale)
+qtweibull = function(p, shape, scale, a=0, b=Inf, log.p=FALSE, ...){
+  stopifnot(exprs = {is.numeric(p); is.numeric(a); is.numeric(b);
+    is.numeric(shape); is.numeric(scale); all(p >= 0); all(p <= 1); all(a >= 0);
+    all(b > a); all(shape > 0); all(scale > 0);
+    is.logical(log.p) && length(log.p) == 1L})
+
+  vec_args = list(
+    log_p = if(isFALSE(log.p)) log(p) else p,
+    a = a,
+    b = b,
+    shape = shape,
+    scale = scale
+  )
+
+  lens = vapply(vec_args, length, 1L)
+
+  stopifnot(length(unique(lens))  <= 2L)
+
+  rep_args = if(length(unique(lens)) > 1L)
+    lapply(vec_args, function(x) if(length(x) == 1L) rep(x, max(lens)) else x) else
+      vec_args
+
+  log1mpexp_eval = do.call("mapply", c(list(FUN = function(log_p, a, b, shape, scale) log1mpexp(log_p, a, b, shape, scale)), rep_args))
+
+  res = a^shape - scale^shape * log1mpexp_eval
 
   res^(1/shape)
 }

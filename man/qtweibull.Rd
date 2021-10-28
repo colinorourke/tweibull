@@ -4,18 +4,18 @@
 \alias{qtweibull}
 \title{Quantile Function for Truncated Weibull}
 \usage{
-qtweibull(p, a = 0, b = Inf, shape, scale, log.p = FALSE, ...)
+qtweibull(p, shape, scale, a = 0, b = Inf, log.p = FALSE, ...)
 }
 \arguments{
 \item{p}{(Numeric) Vector of probabilities}
 
-\item{a}{(Numeric) Vector of lower truncation points}
-
-\item{b}{(Numeric) Vector of upper truncation points}
-
 \item{shape}{(Numeric) Vector of Weibull shape parameters}
 
 \item{scale}{(Numeric) Vector of Weibull scale parameters}
+
+\item{a}{(Numeric) Vector of lower truncation points}
+
+\item{b}{(Numeric) Vector of upper truncation points}
 
 \item{log.p}{(Logical) Whether p represents p or \eqn{log(p)}}
 
