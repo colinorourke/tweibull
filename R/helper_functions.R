@@ -37,8 +37,8 @@ list_select = function(..., x, ind){
 #' Due to numerical accuracy issues with directly computing this
 #' function, a different approach is used that is thought
 #' to be more robust. The approach uses uniroot, and therefore
-#' may fail. This is an internal function to the pacakge and no
-#' error checking is performed on its inputs.
+#' may fail. This is an internal function to the package and no
+#' real error checking is performed on its inputs.
 #'
 #' @param p (Numeric) Numeric 0 <= p <= 1
 #' @param shape (Numeric) Weibull shape parameter
@@ -88,4 +88,28 @@ log1mpexp = function(log_p, a, b, shape, scale, ...){
     )
 
   root$root
+}
+
+#' Check arguments to function
+#'
+#' This function does some basic checks of the arguments going
+#' into one of the truncated Weibull functions. It then returns
+#' a list containing those arguments.
+#'
+#' @param ... Numerics. Truncated Weibull parameters.
+#'
+#' @return list
+make_args = function(...){
+  args_lst = list(...)
+
+  stopifnot(length(names(args_lst)) == length(args_lst))
+
+  lens = vapply(args_lst, length, 1L)
+
+  if(!all(lens) > 0L) stop("No arguments can have 0 length", call. = FALSE)
+  if(length(unique(lens)) > 2L) stop("Arguments must have same length or be of length 1", call. = FALSE)
+
+  max_len = max(lens)
+
+  lapply(args_lst, function(x) if(length(x) < max_len) rep(x, max_len) else x)
 }
