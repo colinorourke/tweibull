@@ -24,8 +24,8 @@ A numeric value
 }
 \description{
 Due to numerical accuracy issues with directly computing this
-function, a different approach is used that is thought
-to be more robust. The approach uses uniroot, and therefore
+function, a different approach is used that is hopefully
+more robust. The approach uses uniroot, and therefore
 may fail. This is an internal function to the package and no
 real error checking is performed on its inputs.
 }

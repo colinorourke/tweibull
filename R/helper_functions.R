@@ -98,6 +98,8 @@ log1mpexp = function(log_p, a, b, shape, scale, ...){
 #'
 #' @param ... Numerics. Truncated Weibull parameters.
 #'
+#' @param expand Logical. Whether to expand arguments to same length (default: FALSE).
+#'
 #' @return list
 check_args = function(...,expand = FALSE){
   args_lst = list(...)
