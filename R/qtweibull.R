@@ -4,8 +4,9 @@
 #' version of the truncated Weibull distribution, especially
 #' for more extreme truncation points. Underneith the hood it
 #' relies on \code{uniroot}, which may issue errors. This should
-#' be considered the least stable of the functions associated
-#' with this distribution in this package.
+#' be considered the least stable of the functions in this package.
+#' It's also about 50 times slower than \code{stats::qweibull} in cases
+#'  where they both apply.
 #'
 #' @param p (Numeric) Vector of probabilities
 #' @param a (Numeric) Vector of lower truncation points
