@@ -35,8 +35,8 @@ list_select = function(..., x, ind){
 #' Numerically compute the value of log(1 - p + p * exp(-x))
 #'
 #' Due to numerical accuracy issues with directly computing this
-#' function, a different approach is used that is thought
-#' to be more robust. The approach uses uniroot, and therefore
+#' function, a different approach is used that is hopefully
+#' more robust. The approach uses uniroot, and therefore
 #' may fail. This is an internal function to the package and no
 #' real error checking is performed on its inputs.
 #'
@@ -99,17 +99,24 @@ log1mpexp = function(log_p, a, b, shape, scale, ...){
 #' @param ... Numerics. Truncated Weibull parameters.
 #'
 #' @return list
-make_args = function(...){
+check_args = function(...,expand = FALSE){
   args_lst = list(...)
 
-  stopifnot(length(names(args_lst)) == length(args_lst))
+  if(length(names(args_lst)) != length(args_lst)) stop("All arguments to 'make_args' must be named", call. = FALSE)
 
   lens = vapply(args_lst, length, 1L)
 
   if(!all(lens) > 0L) stop("No arguments can have 0 length", call. = FALSE)
-  if(length(unique(lens)) > 2L) stop("Arguments must have same length or be of length 1", call. = FALSE)
+  if(!all(lens == 1L) & length(unique(lens)) > 2L) stop("Arguments must have same length or be of length 1", call. = FALSE)
 
   max_len = max(lens)
 
-  lapply(args_lst, function(x) if(length(x) < max_len) rep(x, max_len) else x)
+  if(isTRUE(expand)){
+    lapply(
+      args_lst,
+      function(x) {if(length(x) < max_len) rep(x, max_len) else x}
+    )
+  } else {
+    args_lst
+  }
 }

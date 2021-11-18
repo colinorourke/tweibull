@@ -20,19 +20,24 @@ dtweibull = function(x, shape, scale=1, a=0, b=Inf, log=FALSE){
   assertNumeric(shape, lower=0)
   assertNumeric(scale, lower=0)
 
-  args = list(x = x, shape = shape, scale = scale, a = a, b = b)
-  lns = vapply(args, length, 1L)
-  if(!all(lns == 1L) && length(unique(lns)) > 2L){
-    stop(call. = FALSE, "Argument lengths not 1 differ")
-  }
+  args = check_args(
+    x = x,
+    shape = shape,
+    scale = scale,
+    a = a,
+    b = b
+  )
+
+  lns = vapply(arg_list, length, 1L)
 
   ld = function(x, shape, scale, a, b){
     log(shape) - shape * log(scale) + log(x) * (shape - 1) - (a/scale)^shape - ldenom(a, b, shape, scale)
   }
 
-  low = x < a
-  hi = x > b
-  mid = !low & !hi
+  low = rep_len(x < a, lns)
+  hi = rep_len(x > b, lns)
+  mid = rep_len(!low & !hi, lns)
+
   log_d = numeric(max(lns))
   if(any(low)) log_d[low] = -Inf
   if(any(hi)) log_d[hi] = 0

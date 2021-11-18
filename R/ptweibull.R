@@ -21,13 +21,17 @@ ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FAL
   assertNumeric(scale, lower=0)
   assertNumeric(q)
   assertLogical(lower.tail)
-  assertLogical(log.p, len = 1L)
 
-  arg_list = list(q = q, shape = shape, scale = scale, a = a, b = b, lower.tail = lower.tail)
+  arg_list = check_args(
+    q = q,
+    shape = shape,
+    scale = scale,
+    a = a,
+    b = b,
+    lower.tail = lower.tail
+  )
 
   lns = vapply(arg_list, length, 1L)
-
-  if(!all(lns == 1) && length(unique(lns)) > 2) stop("Argument lengths not 1 are not all the same", call. = FALSE)
 
   pfun = function(q, shape, scale, a, b, lower.tail){
     lt_ind = as.numeric(lower.tail)
@@ -35,9 +39,9 @@ ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FAL
     lt_ind * ldenom(a, q, shape, scale) + (1 - lt_ind) * ldenom(q, b, shape, scale) - ldenom(a, b, shape, scale)
   }
 
-  low = q <= a
-  hi = q >= b
-  mid = !low & !hi
+  low = rep_len(q <= a, lns)
+  hi = rep_len(q >= b, lns)
+  mid = rep_len(!low & !hi, lns)
 
   logp = numeric(max(lns))
   logp[low] = ifelse(lower.tail, -Inf, 0)
