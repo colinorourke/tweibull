@@ -16,11 +16,13 @@
 #' ptweibull(2, shape=1.5, a=1)
 ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FALSE){
   assertNumeric(a, lower=0, finite = TRUE)
-  assertNumeric(b, lower=a)
+  assertNumeric(b)
   assertNumeric(shape, lower=0)
   assertNumeric(scale, lower=0)
   assertNumeric(q)
   assertLogical(lower.tail)
+
+  if(!all(a < b)) stop("All 'a' must be < 'b'.")
 
   arg_list = check_args(
     q = q,
@@ -39,11 +41,13 @@ ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FAL
     lt_ind * ldenom(a, q, shape, scale) + (1 - lt_ind) * ldenom(q, b, shape, scale) - ldenom(a, b, shape, scale)
   }
 
-  low = rep_len(q <= a, lns)
-  hi = rep_len(q >= b, lns)
-  mid = rep_len(!low & !hi, lns)
+  max_lns = max(lns)
 
-  logp = numeric(max(lns))
+  low = rep_len(q <= a, max_lns)
+  hi = rep_len(q >= b, max_lns)
+  mid = rep_len(!low & !hi, max_lns)
+
+  logp = numeric(max_lns)
   logp[low] = ifelse(lower.tail, -Inf, 0)
   logp[hi] = ifelse(lower.tail, 0, -Inf)
   logp[mid] = do.call("pfun", list_select(x = arg_list, ind = mid))
