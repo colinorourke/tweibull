@@ -9,20 +9,20 @@ qtweibull(p, shape, scale, a = 0, b = Inf, log.p = FALSE, ...)
 \arguments{
 \item{p}{(Numeric) Vector of probabilities}
 
-\item{shape}{(Numeric) Vector of Weibull shape parameters}
+\item{shape}{(Numeric) Vector of Weibull shape parameters (default: 0)}
 
-\item{scale}{(Numeric) Vector of Weibull scale parameters}
+\item{scale}{(Numeric) Vector of Weibull scale parameters (default: Inf)}
 
 \item{a}{(Numeric) Vector of lower truncation points}
 
 \item{b}{(Numeric) Vector of upper truncation points}
 
-\item{log.p}{(Logical) Whether p represents p or \eqn{log(p)}}
+\item{log.p}{(Logical) Whether p represents p or \eqn{log(p)} (default: FALSE)}
 
 \item{...}{}
 }
 \value{
-Numeric vector of quantile function values
+(Numeric) vector of quantile function values
 }
 \description{
 This is an attempt to provide a more numerically stable

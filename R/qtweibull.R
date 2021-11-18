@@ -10,12 +10,12 @@
 #' @param p (Numeric) Vector of probabilities
 #' @param a (Numeric) Vector of lower truncation points
 #' @param b (Numeric) Vector of upper truncation points
-#' @param shape (Numeric) Vector of Weibull shape parameters
-#' @param scale (Numeric) Vector of Weibull scale parameters
-#' @param log.p (Logical) Whether p represents p or \eqn{log(p)}
+#' @param shape (Numeric) Vector of Weibull shape parameters (default: 0)
+#' @param scale (Numeric) Vector of Weibull scale parameters (default: Inf)
+#' @param log.p (Logical) Whether p represents p or \eqn{log(p)} (default: FALSE)
 #' @param ...
 #'
-#' @return Numeric vector of quantile function values
+#' @return (Numeric) vector of quantile function values
 #' @export
 #'
 #' @examples
@@ -41,7 +41,7 @@ qtweibull = function(p, shape, scale, a=0, b=Inf, log.p=FALSE, ...){
     expand = TRUE
   )
 
-  log1mpexp_eval = do.call("mapply", c(list(FUN = function(log_p, a, b, shape, scale) log1mpexp(log_p, a, b, shape, scale)), rep_args))
+  log1mpexp_eval = do.call("mapply", c(list(FUN = function(log_p, a, b, shape, scale) log1mpexp(log_p, a, b, shape, scale)), vec_args))
 
   res = a^shape - scale^shape * log1mpexp_eval
 
