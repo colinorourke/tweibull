@@ -26,12 +26,14 @@ dtweibull = function(x, shape, scale=1, a=0, b=Inf, log=FALSE){
     }
   )
 
-  args = check_args(x = x, shape = shape, scale = scale, a = a, b = b)
+  arg_list = check_args(x = x, shape = shape, scale = scale, a = a, b = b)
 
   lns = vapply(arg_list, length, 1L)
 
   ld = function(x, shape, scale, a, b){
-    log(shape) - shape * log(scale) + log(x) * (shape - 1) - (a/scale)^shape - ldenom(a, b, shape, scale)
+    a_shape = a ^ shape
+    scale_shape = scale ^ shape
+    log(shape) + (shape - 1) * log(x) - shape * log(scale) - (x^shape - a_shape) / scale_shape - log1mexp((b^shape - a_shape) / scale_shape)
   }
 
   max_lns = max(lns)
@@ -44,7 +46,7 @@ dtweibull = function(x, shape, scale=1, a=0, b=Inf, log=FALSE){
   if(any(low)) log_d[low] = -Inf
   if(any(hi)) log_d[hi] = 0
   if(any(mid)){
-    log_d[mid] = do.call("ld", list_select(x = args, ind = mid))
+    log_d[mid] = do.call("ld", list_select(x = arg_list, ind = mid))
   }
 
   if(isTRUE(log)) log_d else exp(log_d)
