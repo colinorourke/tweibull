@@ -1,13 +1,14 @@
 #' Truncated Weibull hazard function
 #'
-#' @param x Numerics. Value at which to evaluate hazard function.
+#' @name htweibull
+#' @param x Numerics. Value at which to evaluate hazard or cumulative hazard function.
 #' @param shape Numerics. Shape parameter.
 #' @param scale Numerics. Scale parameter (default: 1).
 #' @param a Numerics. Lower truncation point (default: 0).
 #' @param b Numerics. Upper truncation point (default: Inf).
-#' @param log Logical. Return log-hazard (default: FALSE).
+#' @param log Logical. Return log-hazard or log-cumulative hazard (default: FALSE).
 #'
-#' @return Numerics. Hazard function value.
+#' @return Numerics. Value of hazard or cumulative hazard function.
 #' @export
 #'
 #' @examples
@@ -47,14 +48,8 @@ htweibull = function(x, shape, scale = 1, a = 0, b = Inf, log = FALSE){
 
 #' Truncated Weibull cumulative hazard
 #'
-#' @param x (Numerics) Place to evaluate cumulative hazard
-#' @param shape (Numerics) Weibull shape parameter
-#' @param scale (Numerics) Weibull scale parameter (default: 1)
-#' @param a (Numerics) Lower truncation point (default: 0)
-#' @param b (Numerics) Upper truncation point (default: Inf)
-#' @param log (Logical) Return log-cumhaz (default: FALSE)
-#'
-#' @return (Numerics) Value of cumulative hazard
+#' @name Htweibull
+#' @rdname htweibull
 #' @export
 #'
 #' @examples
