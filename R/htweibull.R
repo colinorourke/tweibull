@@ -7,7 +7,7 @@
 #' @param b Numerics. Upper truncation point (default: Inf).
 #' @param log Logical. Return log-hazard (default: FALSE).
 #'
-#' @return Numerics. Hazard value.
+#' @return Numerics. Hazard function value.
 #' @export
 #'
 #' @examples

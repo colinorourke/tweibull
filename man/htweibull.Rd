@@ -20,7 +20,7 @@ htweibull(x, shape, scale = 1, a = 0, b = Inf, log = FALSE)
 \item{log}{Logical. Return log-hazard (default: FALSE).}
 }
 \value{
-Numerics. Hazard value.
+Numerics. Hazard function value.
 }
 \description{
 Truncated Weibull hazard function
