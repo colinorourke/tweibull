@@ -101,6 +101,7 @@ log1mpexp = function(log_p, a, b, shape, scale, ...){
 #' @param expand Logical. Whether to expand arguments to same length (default: FALSE).
 #'
 #' @return list
+#' @keywords internal
 check_args = function(...,expand = FALSE){
   args_lst = list(...)
 
@@ -116,7 +117,7 @@ check_args = function(...,expand = FALSE){
   if(isTRUE(expand)){
     lapply(
       args_lst,
-      function(x) {if(length(x) < max_len) rep(x, max_len) else x}
+      function(x) {if(length(x) < max_len) rep_len(x, max_len) else x}
     )
   } else {
     args_lst

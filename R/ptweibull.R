@@ -34,6 +34,7 @@ ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FAL
   )
 
   lns = vapply(arg_list, length, 1L)
+  max_lns = max(lns)
 
   pfun = function(q, shape, scale, a, b, lower.tail){
     lt_ind = as.numeric(lower.tail)
@@ -41,7 +42,6 @@ ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FAL
     lt_ind * ldenom(a, q, shape, scale) + (1 - lt_ind) * ldenom(q, b, shape, scale) - ldenom(a, b, shape, scale)
   }
 
-  max_lns = max(lns)
 
   low = rep_len(q <= a, max_lns)
   hi = rep_len(q >= b, max_lns)

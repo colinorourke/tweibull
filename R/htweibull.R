@@ -14,17 +14,27 @@
 #' htweibull(5, 2.5)
 htweibull = function(x, shape, scale = 1, a = 0, b = Inf, log = FALSE){
   stopifnot(
-    x >= 0, shape > 0, scale > 0, a >= 0, b > a, is.logical(log),
-    length(log) == 1L
+    exprs = {
+      is.numeric(x); length(x) >= 1L; is.finite(x);
+      is.numeric(shape); length(shape) >= 1L; all(shape > 0); all(is.finite(shape));
+      is.numeric(scale); length(scale) >= 1L; all(scale > 0); all(is.finite(scale));
+      is.numeric(a); length(a) >= 1L; all(a >= 0); all(is.finite(a));
+      is.numeric(b); length(b) >= 1L; all(b > a);
+      is.logical(log); length(log) == 1L
+    }
   )
 
-  args_lst = make_args(x = x, shape = shape, scale = scale, a = a, b = b)
+  args_lst = check_args(x = x, shape = shape, scale = scale, a = a, b = b)
 
-  x_lte_b = x <= b
+  lns = vapply(args_lst, length, 1L)
 
-  x_gte_a = x >= a
+  max_lns = max(lns)
 
-  log_h = numeric(length(args_lst$x))
+  x_lte_b = rep_len(x <= b, max_lns)
+
+  x_gte_a = rep_len(x >= a, max_lns)
+
+  log_h = numeric(max_lns)
 
   log_h[!x_lte_b] = Inf
 

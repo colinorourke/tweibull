@@ -3,10 +3,10 @@
 #' This is an attempt to provide a more numerically stable
 #' version of the truncated Weibull distribution, especially
 #' for more extreme truncation points. Underneith the hood it
-#' relies on \code{uniroot}, which may issue errors. This should
-#' be considered the least stable of the functions in this package.
+#' relies on \code{uniroot}, which may issue errors. For this reason \code{qtweibull}
+#' should be considered the least stable component of this package.
 #' It's also about 50 times slower than \code{stats::qweibull} in cases
-#'  where they both apply.
+#' where they both apply.
 #'
 #' @param p (Numeric) Vector of probabilities
 #' @param a (Numeric) Vector of lower truncation points
@@ -22,10 +22,18 @@
 #' @examples
 #' qtweibull(0.5, 1, 5, 1.5, 2.5)
 qtweibull = function(p, shape, scale, a=0, b=Inf, log.p=FALSE, ...){
-  stopifnot(exprs = {is.numeric(p); is.numeric(a); is.numeric(b);
-    is.numeric(shape); is.numeric(scale); all(a >= 0);
-    all(b > a); all(shape > 0); all(scale > 0);
-    is.logical(log.p) && length(log.p) == 1L})
+  stopifnot(
+    exprs = {
+      is.numeric(p); is.numeric(a); is.numeric(b);
+      is.numeric(shape); is.numeric(scale); all(a >= 0);
+      all(b > a); all(shape > 0); all(scale > 0);
+      is.logical(log.p);
+      all(is.finite(shape)); all(is.finite(scale));
+      all(is.finite(a));
+      length(p) >= 1L; length(shape) >= 1L; length(scale) >= 1L;
+      length(a) >= 1L; length(b) >= 1L; length(log.p) == 1L
+    }
+  )
 
   if(isTRUE(log.p)){
     stopifnot(exprs = {all(p <= 0)})

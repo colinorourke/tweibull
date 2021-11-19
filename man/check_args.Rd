@@ -19,3 +19,4 @@ This function does some basic checks of the arguments going
 into one of the truncated Weibull functions. It then returns
 a list containing those arguments.
 }
+\keyword{internal}

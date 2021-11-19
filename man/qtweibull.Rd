@@ -28,10 +28,10 @@ qtweibull(p, shape, scale, a = 0, b = Inf, log.p = FALSE, ...)
 This is an attempt to provide a more numerically stable
 version of the truncated Weibull distribution, especially
 for more extreme truncation points. Underneith the hood it
-relies on \code{uniroot}, which may issue errors. This should
-be considered the least stable of the functions in this package.
+relies on \code{uniroot}, which may issue errors. For this reason \code{qtweibull}
+should be considered the least stable component of this package.
 It's also about 50 times slower than \code{stats::qweibull} in cases
- where they both apply.
+where they both apply.
 }
 \examples{
 qtweibull(0.5, 1, 5, 1.5, 2.5)
