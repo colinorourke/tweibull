@@ -82,7 +82,7 @@ Htweibull = function(x, shape, scale = 1, a = 0, b = Inf, log=FALSE){
   h_res[x_lte_a] = 0
   h_res[x_gte_b] = Inf
 
-  h_res[!x_lte_a & !x_gte_b] = evalq(x^shape / scale^shape + log1mexp((b/scale)^shape) - log1mexp((b^shape - x^shape)/scale^shape), envir = list_select(x = args, ind = !x_lte_a & !x_gte_b))
+  h_res[!x_lte_a & !x_gte_b] = evalq((x^shape - a^shape) / scale^shape + log1mexp((b^shape - a^shape) / scale^shape) - log1mexp((b^shape - x^shape) / scale^shape), envir = list_select(x = args, ind = !x_lte_a & !x_gte_b))
 
   if(isTRUE(log)) log(h_res) else h_res
 }
