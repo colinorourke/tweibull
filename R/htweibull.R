@@ -44,3 +44,46 @@ htweibull = function(x, shape, scale = 1, a = 0, b = Inf, log = FALSE){
 
   if(isTRUE(log)) log_h else exp(log_h)
 }
+
+#' Truncated Weibull cumulative hazard
+#'
+#' @param x (Numerics) Place to evaluate cumulative hazard
+#' @param shape (Numerics) Weibull shape parameter
+#' @param scale (Numerics) Weibull scale parameter (default: 1)
+#' @param a (Numerics) Lower truncation point (default: 0)
+#' @param b (Numerics) Upper truncation point (default: Inf)
+#' @param log (Logical) Return log-cumhaz (default: FALSE)
+#'
+#' @return (Numerics) Value of cumulative hazard
+#' @export
+#'
+#' @examples
+#' Htweibull(3, 2.5, 1.5, 1, 5)
+Htweibull = function(x, shape, scale = 1, a = 0, b = Inf, log=FALSE){
+  stopifnot(
+    exprs = {
+      is.numeric(x); is.numeric(shape); is.numeric(scale); is.numeric(a); is.numeric(b); is.logical(log);
+      length(x) >= 1L; length(shape) >= 1L; length(scale) >= 1L; length(a) >= 1L; length(b) >= 1L; length(log) == 1L;
+      all(!is.infinite(x)); all(shape > 0); all(!is.infinite(a)); all(b > a);
+    }
+  )
+
+  args = check_args(x = x, shape = shape, scale = scale, a = a, b = b)
+
+  lns = sapply(args, length)
+
+  max_lns = max(lns)
+
+  h_res = numeric(max_lns)
+
+  x_lte_a = rep_len(x <= a, max_lns)
+  x_gte_b = rep_len(x >= b, max_lns)
+
+  h_res[x_lte_a] = 0
+  h_res[x_gte_b] = Inf
+
+  h_res[!x_lte_a & !x_gte_b] = evalq(x^shape / scale^shape + log1mexp((b/scale)^shape) - log1mexp((b^shape - x^shape)/scale^shape), envir = list_select(x = args, ind = !x_lte_a & !x_gte_b))
+
+  if(isTRUE(log)) log(h_res) else h_res
+}
+
