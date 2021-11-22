@@ -49,8 +49,9 @@ list_select = function(..., x, ind){
 #'
 #' @return A numeric value
 #' @importFrom VGAM log1mexp
+#' @importFrom utils modifyList
 #'
-#' @keywords interval
+#' @keywords internal
 log1mpexp = function(log_p, a, b, shape, scale, ...){
   x = (a^shape - b^shape) / scale^shape
 

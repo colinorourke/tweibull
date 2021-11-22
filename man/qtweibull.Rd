@@ -19,7 +19,7 @@ qtweibull(p, shape, scale, a = 0, b = Inf, log.p = FALSE, ...)
 
 \item{log.p}{(Logical) Whether p represents p or \eqn{log(p)} (default: FALSE)}
 
-\item{...}{}
+\item{...}{Currently does nothing}
 }
 \value{
 (Numeric) vector of quantile function values

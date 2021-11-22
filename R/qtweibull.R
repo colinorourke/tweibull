@@ -14,7 +14,7 @@
 #' @param shape (Numeric) Vector of Weibull shape parameters (default: 0)
 #' @param scale (Numeric) Vector of Weibull scale parameters (default: Inf)
 #' @param log.p (Logical) Whether p represents p or \eqn{log(p)} (default: FALSE)
-#' @param ...
+#' @param ... Currently does nothing
 #'
 #' @return (Numeric) vector of quantile function values
 #' @importFrom VGAM log1mexp

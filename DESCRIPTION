@@ -10,7 +10,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: VGAM
-Depends: checkmate
 RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 3.0.0)

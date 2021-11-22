@@ -29,4 +29,4 @@ more robust. The approach uses uniroot, and therefore
 may fail. This is an internal function to the package and no
 real error checking is performed on its inputs.
 }
-\keyword{interval}
+\keyword{internal}
