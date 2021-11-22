@@ -67,3 +67,17 @@ test_that("results of ptweibull match base with truncation", {
     log(pbase(q = 2.2, shape = 5.2, scale = 1.8, a = 2, b = 10, lower.tail = FALSE))
   )
 })
+
+test_that("throws appropriate errors", {
+  expect_error(ptweibull(q = 1.5, shape = 2.5, scale = 2, a = 4, b = 3))
+  expect_error(ptweibull(q = 1.5, shape = -1, scale = 2))
+  expect_error(ptweibull(q = 1.5, shape = 2.5, scale = -1))
+  expect_error(ptweibull(q = -1, shape = 2.5, scale = -1))
+})
+
+test_that("basic scenarios make sense", {
+  expect_equal(ptweibull(q = 0, shape = 3, scale = 2), 0)
+  expect_equal(ptweibull(q = Inf, shape = 3, scale = 2), 1)
+  expect_equal(ptweibull(q = 2, shape = 3, scale = 2, a = 2, b = 4), 0)
+  expect_equal(ptweibull(q = 4, shape = 3, scale = 2, a = 2, b = 4), 1)
+})
