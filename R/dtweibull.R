@@ -10,7 +10,6 @@
 #' @return Numeric value
 #' @export
 #' @importFrom VGAM log1mexp
-#' @import checkmate
 #'
 #' @examples
 #' dtweibull(3, 0.5, 1.5, 2)

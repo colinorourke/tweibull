@@ -9,20 +9,19 @@
 #' @param log.p Logical, whether to return log probabilities
 #'
 #' @return Numeric value(s)
-#' @import checkmate
+#' @importFrom VGAM log1mexp
 #' @export
 #'
 #' @examples
 #' ptweibull(2, shape=1.5, a=1)
 ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FALSE){
-  assertNumeric(a, lower=0, finite = TRUE)
-  assertNumeric(b)
-  assertNumeric(shape, lower=0)
-  assertNumeric(scale, lower=0)
-  assertNumeric(q)
-  assertLogical(lower.tail)
-
-  if(!all(a < b)) stop("All 'a' must be < 'b'.")
+  stopifnot(
+    exprs = {
+      is.numeric(q); is.numeric(shape); is.numeric(scale); is.numeric(a); is.numeric(b); is.logical(lower.tail); is.logical(log.p);
+      length(log.p) == 1L;
+      q >= 0; shape > 0; scale > 0; a >= 0; all(b > a)
+    }
+  )
 
   arg_list = check_args(
     q = q,
@@ -39,18 +38,20 @@ ptweibull = function(q, shape, scale=1, a=0, b = Inf, lower.tail=TRUE, log.p=FAL
   pfun = function(q, shape, scale, a, b, lower.tail){
     lt_ind = as.numeric(lower.tail)
 
-    lt_ind * ldenom(a, q, shape, scale) + (1 - lt_ind) * ldenom(q, b, shape, scale) - ldenom(a, b, shape, scale)
-  }
+    ldenom = log1mexp((b^shape - a^shape)/scale^shape)
 
+    lt_ind * (log1mexp((q^shape - a^shape) / scale^shape) - ldenom) +
+      (1 - lt_ind) * ((a^shape - q^shape) / scale^shape + log1mexp((b^shape - q^shape)/scale^shape) - ldenom)
+  }
 
   low = rep_len(q <= a, max_lns)
   hi = rep_len(q >= b, max_lns)
   mid = rep_len(!low & !hi, max_lns)
 
   logp = numeric(max_lns)
-  logp[low] = ifelse(lower.tail, -Inf, 0)
-  logp[hi] = ifelse(lower.tail, 0, -Inf)
-  logp[mid] = do.call("pfun", list_select(x = arg_list, ind = mid))
+  if(any(low)) logp[low] = ifelse(lower.tail, -Inf, 0)
+  if(any(hi)) logp[hi] = ifelse(lower.tail, 0, -Inf)
+  if(any(mid)) logp[mid] = do.call("pfun", list_select(x = arg_list, ind = mid))
 
   if(isTRUE(log.p)) logp else exp(logp)
 }

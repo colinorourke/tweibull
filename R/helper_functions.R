@@ -49,7 +49,6 @@ list_select = function(..., x, ind){
 #'
 #' @return A numeric value
 #' @importFrom VGAM log1mexp
-#' @import checkmate
 #'
 #' @keywords interval
 log1mpexp = function(log_p, a, b, shape, scale, ...){

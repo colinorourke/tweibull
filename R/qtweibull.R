@@ -17,6 +17,7 @@
 #' @param ...
 #'
 #' @return (Numeric) vector of quantile function values
+#' @importFrom VGAM log1mexp
 #' @export
 #'
 #' @examples

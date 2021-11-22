@@ -9,6 +9,7 @@
 #' @param log Logical. Return log-hazard or log-cumulative hazard (default: FALSE).
 #'
 #' @return Numerics. Value of hazard or cumulative hazard function.
+#' @importFrom VGAM log1mexp
 #' @export
 #'
 #' @examples
